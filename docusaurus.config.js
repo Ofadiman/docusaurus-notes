@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 module.exports = {
   title: 'Programming Notes',
   tagline: 'Dinosaurs are cool',
-  url: 'https://github.com/Ofadiman',
+  url: 'https://github.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

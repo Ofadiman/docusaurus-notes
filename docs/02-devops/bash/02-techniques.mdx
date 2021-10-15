@@ -1,0 +1,93 @@
+---
+title: Techniques
+description: Snippets to common techniques used in bash
+---
+
+import CodeBlock from '@theme/CodeBlock'
+import DefaultVariableValueCode from '!!raw-loader!./techniques/default-variable-value.sh'
+import IterateOverArrayCode from '!!raw-loader!./techniques/iterate-over-arrays.sh'
+import PassArgumentsFromTerminalCode from '!!raw-loader!./techniques/pass-arguments-from-terminal.sh'
+import ReadPartsOfVariablesCode from '!!raw-loader!./techniques/read-parts-of-variables.sh'
+import ReadUserInputCode from '!!raw-loader!./techniques/read-user-input.sh'
+import RunCodeInLoopsCode from '!!raw-loader!./techniques/run-code-in-loops.sh'
+import RunConditionalLogicCode from '!!raw-loader!./techniques/run-conditional-logic.sh'
+import SubShellsCode from '!!raw-loader!./techniques/sub-shells.sh'
+import WaitForBackgroundTasksCode from '!!raw-loader!./techniques/wait-for-background-tasks.sh'
+
+This page contains a collection of code snippets commonly used in everyday work with bash.
+
+<br />
+
+## Default variable value
+
+Code snippet showing how to assign default values to variables inside a shell script.
+
+<CodeBlock className="language-bash">{DefaultVariableValueCode}</CodeBlock>
+
+<br />
+
+## Run commands in subshells
+
+Code snippet showing how to create a subshell at script runtime. The `(...)` syntax creates a child process, executes the commands and goes back to the original process. The `cd` command in this example with only have impact inside the `()`.
+
+<CodeBlock className="language-bash">{SubShellsCode}</CodeBlock>
+
+<br />
+
+## Iterate over array
+
+Code snippet showing how to iterate over arrays in different ways.
+
+<CodeBlock className="language-bash">{IterateOverArrayCode}</CodeBlock>
+
+<br />
+
+## Pass arguments from terminal
+
+Code snippet showing how to pass arguments from terminal to the script. You can override a default argument by executing `bash script.sh host=203.0.113.3 environment=prod`.
+
+<CodeBlock className="language-bash" title="script.sh">
+  {PassArgumentsFromTerminalCode}
+</CodeBlock>
+
+<br />
+
+## Read parts of variables
+
+Code snippet showing how to read only specified parts of variables.
+
+<CodeBlock className="language-bash">{ReadPartsOfVariablesCode}</CodeBlock>
+
+<br />
+
+## Read user input
+
+Code snippet showing how to read user input.
+
+<CodeBlock className="language-bash">{ReadUserInputCode}</CodeBlock>
+
+<br />
+
+## Run code in loops
+
+Code snippet showing how to use different types of loops.
+
+<CodeBlock className="language-bash">{RunCodeInLoopsCode}</CodeBlock>
+
+<br />
+
+## Run conditional logic
+
+Code snippet showing how to use different types of `if` statements to execute logic conditionally.
+
+<CodeBlock className="language-bash">{RunConditionalLogicCode}</CodeBlock>
+
+<br />
+
+## Wait for background tasks
+
+Code snippet showing how to await all background tasks before exiting from the script.
+
+<CodeBlock className="language-bash">{WaitForBackgroundTasksCode}</CodeBlock>
+
+<br />

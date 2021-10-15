@@ -1,0 +1,61 @@
+---
+title: Database design tips
+description: A set of design tips to create resilient database schemas.
+---
+
+Designing a resilient database schema is a difficult task.
+
+<br />
+
+## Avoid boolean data type
+
+`Boolean` data type often creates problems that are not visible at first glance. With booleans, you can only store 2 different values (i.e `true` / `false`). Usually, when we start working on a feature, that `true` / `false` option seems to be good enough for the initial use case scenario but the lack of extensibility often shoots back at us later on when we have to extend our feature with new functionalities.
+
+<br />
+
+### Apple's club house case
+
+Lets imagine that you are responsible for implementing a feature in which users can invite their friends to your application. You want to track statistics about those invitation links to gain knowledge about e.g. `feature popularity`, `percentage of used links` or `new users source`.
+
+#### Solution #1
+
+Create a database table `invitation_links` with columns `id`, `url` and `is_used`. Every link has `is_used` initially set to `false`. After a new user registers with a link, the `is_used` value is set to `true`.
+
+#### Solution #2
+
+Create a database table `invitation_links` with columns `id`, `url` and `status`. The `status` column stores values from a string enum (e.g. `InvitationLinkStatus`). Initially, every link has `status` set to `New` and after a new user registers using that link, the `status` value is set to `Used`.
+
+<br />
+
+Both solutions will work initially, but let's see what happens if we need to implement the following user stories:
+
+- As a user, I want to invalidate a link sent to a wrong person.
+- As an administrator, I want to invalidate a link that belongs to a banned user.
+
+If you went for **Solution #1**, You would have to add additional columns in your database to store additional information about the invitation link state (e.g. `is_invalidated_by_user` and `is_banned_by_administrator`).
+
+If you went for **Solution #2**, all you have to do is add additional states to `InvitationLinkStatus` enum (e.g. `InvalidatedByUser` and `BannedByAdministrator`).
+
+<br />
+
+### Facebook's messenger case
+
+Lets imagine that you are responsible for implementing a feature in which users can chat to each other. Users would like to know which of their friends are currently active in the chat.
+
+#### Potential solution #1
+
+Add `is_active` column to the `users` table which will store the information if user is currently active or not.
+
+#### Potential solution #2
+
+Add a `last_seen` column to the `users` table that will store information about the last date the user used the application.
+
+<br />
+
+Both solutions will work initially, but let's see what happens if we need to implement the following user stories:
+
+- As a stakeholder, I want to see how many active users were in the chat last week.
+- As a user, I want to see how long ago my friend was last online.
+
+The second solution is more flexible because a date allows to derive more information than a boolean. On the frontend side we could show when a particular user has been active for the last time.
+If the information about users activity is not critical for application operation (e.g. it's only displayed on the chat's home page and it's not considered in application analytics) it would be better to store that in a cache (e.g. Redis) to boost query performance.

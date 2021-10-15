@@ -1,0 +1,111 @@
+---
+title: Core concepts
+description: General overview of bash capabilities
+---
+
+import CodeBlock from '@theme/CodeBlock'
+
+Bash is a shell program. A shell program is typically an executable binary that takes commands that you type and translates those commands into system calls to the Operating System API. The name is an acronym for the `Bourne-Again SHell`.
+
+<br />
+
+## Shebang line
+
+The `#!` characters are called `shebang` and are used to tell the operating system which interpreter to use to parse the rest of the file. Important assumptions about the shebang are:
+
+- If the shebang is not specified the script is run with default shell that the current user has configured.
+- It must be the first line in the script.
+- The directive must start with `#!`.
+
+Examples:
+
+- `#!/usr/bin/env bash` - Use the env command to find the path to the bash and execute script with it.
+- `#!/usr/bin/env node` - Use the env command to find the path to the node and execute script with it.
+
+<br />
+
+## Unofficial strict mode
+
+Before starting any script in bash, you should set operating parameters in order to make debugging and running the script more predictable.
+
+<CodeBlock className="language-bash">set -eou pipefail</CodeBlock>
+
+- `-e` - Immediately exit if any command has a non-zero exit status.
+- `-o pipefail` - Immediately exit if any command used in a pipeline returned a non-zero exit status.
+- `-u` - Immediately exit if any variable used in a script has not been set (with exception to internal bash variables).
+
+<br />
+
+## Useful commands
+
+Most frequently used bash commands are:
+
+- `cat` - Print file content to stdout.
+- `crontab` - Maintain crontab files for individual users.
+- `cut` - Print selected parts of lines from each file to standard output.
+- `date` - Print or set the system date and time.
+- `echo` - Print a line of text.
+- `grep` - Search for patterns in each file.
+- `head` - Print the first 10 lines of each file to standard output.
+- `less` - Print the file content one page at a time.
+- `man` - Print the manual of another command.
+- `ping` - Send a request to network hosts.
+- `ps` - Report a snapshot of the current processes.
+- `pwd` - Print the name of the current working directory.
+- `set` - Set or unset values of shell options and positional parameters.
+- `sleep` - Delay execution of shell script for a specified amount of time.
+- `ssh` - OpenSSH remote login client.
+- `systemctl` - Control the systemd system and service manager.
+- `tail` - Print the last 10 lines of each file to standard output.
+- `tee` - Copy standard input to each FILE, and also to standard output.
+- `test` - Check file types and compare values.
+- `tr` - Translate, squeeze, and delete characters from standard input, writing to standard output.
+- `wait` - Wait for a process (or set of processes) to change state.
+- `whatis` - Print more information about selected command.
+- `which` - Print the location of selected executable.
+- `whoami` - Print the username associated with the current effective user ID.
+
+<br />
+
+## Redirection operations
+
+- `ls -a &> output.txt` - Redirect success and error output to output.txt file.
+- `ls -a 1> success.txt 2> error.txt` - Redirect success output to success.txt file and error output to error.txt file.
+- `ls -a 2>> errors.txt` - Append error output to the end of errors.txt file.
+- `ls -a > success.txt` - Redirect success output to success.txt file (shortcut for ls -a 1> success.txt).
+- `ls -lrt | awk ${print $1}` - Pipe success output from one command to input of another command.
+- `node index.js > /dev/null 2>&1` - Redirect both output and errors to the void (i.e. ignore them completely).
+- `node index.js > output-and-error.log 2>&1` - Redirect both output and errors to output-and-error.log file.
+
+<br />
+
+## Command chaining operators
+
+- `&&` - Execute all commands one by one and stop immediately when the first command fails (e.g. ls && docker -v && pwd).
+- `&` - Execute all commands in parallel (e.g. ls & docker -v & pwd & sleep 30).
+- `;` - Execute all commands one by one and don't stop when some commands fail (e.g. ls;docker -v;pwd).
+- `||` - Execute second command only if the first failed (e.g. docker -v || ls).
+
+<br />
+
+## Special variables
+
+- `$!` - Internal Bash variable that stores the PID of the last job run in the background.
+- `$#` - Internal Bash variable that stores the number of arguments passed to the script.
+- `$$` - Internal Bash variable that stores the script's PID.
+- `$?` - Internal Bash variable that stores the exit code of the last command run.
+- `$@` - Internal Bash variable that stores all arguments passed to the script.
+
+<br />
+
+## Comparison operators
+
+- `-eq` - Equal.
+- `-ge` - Greater than or equal.
+- `-gt` - Greater than.
+- `-le` - Less than or equal.
+- `-lt` - Less than.
+- `-ne` - Not equal.
+- `-z` - Is null.
+
+<br />
